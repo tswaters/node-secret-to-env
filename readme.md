@@ -1,5 +1,10 @@
 # Secret to Env
 
+[![npm version][npm-badge]][npm-url]
+[![Build Status][travis-badge]][travis-url]
+[![Coverage Status][coveralls-badge]][coveralls-url]
+[![Dependency Status][david-badge]][david-url]
+
 Used to parse docker secrets into environment variables
 
 ## Install
@@ -29,3 +34,12 @@ getSync() // uses sync fs methods
 
 MIT
 
+
+[npm-badge]: https://badge.fury.io/js/secret-to-env.svg
+[npm-url]: https://badge.fury.io/js/secret-to-env
+[travis-badge]: https://travis-ci.org/tswaters/secret-to-env.svg?branch=master
+[travis-url]: https://travis-ci.org/tswaters/secret-to-env
+[coveralls-badge]: https://coveralls.io/repos/github/tswaters/secret-to-env/badge.svg?branch=master
+[coveralls-url]: https://coveralls.io/github/tswaters/secret-to-env?branch=master
+[david-badge]: https://david-dm.org/tswaters/secret-to-env.svg
+[david-url]: https://david-dm.org/tswaters/secret-to-env
