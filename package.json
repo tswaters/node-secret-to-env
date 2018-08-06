@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "devDependencies": {
+    "coveralls": "^3.0.2",
     "eslint": "^5.3.0",
     "mocha": "^5.2.0",
     "nyc": "^12.0.2"
