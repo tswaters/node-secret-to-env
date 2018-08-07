@@ -47,6 +47,7 @@ module.exports.get = async (opts) => {
 }
 
 module.exports.getSync = opts => {
+
   const {dir, encoding, target} = parseOpts(opts)
   const secrets = readdirSync(dir)
 
@@ -57,5 +58,5 @@ module.exports.getSync = opts => {
       target[secret_name] = secret_value.trim()
     }
 
-  }  
+  }
 }
