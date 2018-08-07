@@ -37,9 +37,9 @@ MIT
 
 [npm-badge]: https://badge.fury.io/js/secret-to-env.svg
 [npm-url]: https://badge.fury.io/js/secret-to-env
-[travis-badge]: https://travis-ci.org/tswaters/secret-to-env.svg?branch=master
-[travis-url]: https://travis-ci.org/tswaters/secret-to-env
-[coveralls-badge]: https://coveralls.io/repos/github/tswaters/secret-to-env/badge.svg?branch=master
-[coveralls-url]: https://coveralls.io/github/tswaters/secret-to-env?branch=master
+[travis-badge]: https://travis-ci.org/tswaters/node-secret-to-env.svg?branch=master
+[travis-url]: https://travis-ci.org/tswaters/node-secret-to-env
+[coveralls-badge]: https://coveralls.io/repos/github/tswaters/node-secret-to-env/badge.svg?branch=master
+[coveralls-url]: https://coveralls.io/github/tswaters/node-secret-to-env?branch=master
 [david-badge]: https://david-dm.org/tswaters/secret-to-env.svg
 [david-url]: https://david-dm.org/tswaters/secret-to-env
