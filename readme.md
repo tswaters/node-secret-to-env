@@ -41,5 +41,5 @@ MIT
 [travis-url]: https://travis-ci.org/tswaters/node-secret-to-env
 [coveralls-badge]: https://coveralls.io/repos/github/tswaters/node-secret-to-env/badge.svg?branch=master
 [coveralls-url]: https://coveralls.io/github/tswaters/node-secret-to-env?branch=master
-[david-badge]: https://david-dm.org/tswaters/secret-to-env.svg
-[david-url]: https://david-dm.org/tswaters/secret-to-env
+[david-badge]: https://david-dm.org/tswaters/node-secret-to-env.svg
+[david-url]: https://david-dm.org/tswaters/node-secret-to-env
