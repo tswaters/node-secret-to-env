@@ -1,41 +1,131 @@
 /* eslint-env mocha */
 'use strict'
 
+const sinon = require('sinon')
 const assert = require('assert')
 const path = require('path')
-const {get, getSync} = require('./')
+const proxyquire = require('proxyquire')
 
 describe('env-to-secret', () => {
+
+  let get = null
+  let getSync = null
+  let config = null
+  let configSync = null
 
   const encoding = 'utf-8'
   const dir = path.join(__dirname, 'fixtures')
 
-  let target = null
-
   beforeEach(() => {
-    target = {}
+    ({get, getSync, config, configSync} = proxyquire('./', {
+      fs: {
+        readdir: sinon.stub().callsArgWith(2, null, ['secret-1', 'secret-2']),
+        readdirSync: sinon.stub().returns(['secret-1', 'secret-2']),
+        readFile: sinon.stub().callsArgWith(2, null, 'secret-value'),
+        readFileSync: sinon.stub().returns('secret-value')
+      }
+    }))
   })
 
-  it('should load things properly - async', async () => {
+  afterEach(() => {
+    delete process.env['secret-1']
+    delete process.env['secret-2']
+  })
 
-    await get({target, encoding, dir})
+  describe('get', () => {
 
-    assert.deepEqual(target, {
-      'secret-1': 'secret-1-value',
-      'secret-2': 'secret-2-value'
+    it('should get with no options properly - async', async () => {
+
+      const result = await get()
+
+      assert.deepEqual(result, {
+        'secret-1': 'secret-value',
+        'secret-2': 'secret-value'
+      })
+
     })
 
-  })
+    it('should get properly - async', async () => {
 
-  it('should load things properly - sync', () => {
+      const result = await get({encoding, dir})
 
-    getSync({target, encoding, dir})
+      assert.deepEqual(result, {
+        'secret-1': 'secret-value',
+        'secret-2': 'secret-value'
+      })
 
-    assert.deepEqual(target, {
-      'secret-1': 'secret-1-value',
-      'secret-2': 'secret-2-value'
     })
 
+    it('should get with no options properly - sync', () => {
+
+      const result = getSync()
+
+      assert.deepEqual(result, {
+        'secret-1': 'secret-value',
+        'secret-2': 'secret-value'
+      })
+
+    })
+
+    it('should get properly - sync', () => {
+
+      const result = getSync({encoding, dir})
+
+      assert.deepEqual(result, {
+        'secret-1': 'secret-value',
+        'secret-2': 'secret-value'
+      })
+
+    })
   })
+
+  describe('config', () => {
+
+    let target = null
+
+    beforeEach(() => {
+      target = {}
+    })
+
+    it('should config properly with no options - async', async () => {
+
+      await config()
+
+      assert.equal(process.env['secret-1'], 'secret-value')
+      assert.equal(process.env['secret-2'], 'secret-value')
+    })
+
+    it('should config properly - async', async () => {
+
+      await config({target, encoding, dir})
+
+      assert.deepEqual(target, {
+        'secret-1': 'secret-value',
+        'secret-2': 'secret-value'
+      })
+
+    })
+
+    it('should config properly with no options - sync', () => {
+
+      configSync()
+
+      assert.equal(process.env['secret-1'], 'secret-value')
+      assert.equal(process.env['secret-2'], 'secret-value')
+
+    })
+
+    it('should config properly - sync', () => {
+
+      configSync({target, encoding, dir})
+
+      assert.deepEqual(target, {
+        'secret-1': 'secret-value',
+        'secret-2': 'secret-value'
+      })
+
+    })
+  })
+
 
 })

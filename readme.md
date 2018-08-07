@@ -18,17 +18,36 @@ npm i secret-to-env
 ```js
 const {get, getSync} = require('secret-to-env')
 
-await get() // returns promise
-getSync() // uses sync fs methods
+const result = await get() // returns promise, resolves to secrets
+const result = getSync() // uses sync methods, returns secrets
+
+await config() // populates secrets into process.env
+configSync() // uses sync methods, populates into process.env
 ```
 
-## Options
+## API
 
-* target - object to mutate, defaults to `process.env`
+### config
 
-* dir - directory to load, default to `/var/run/secret`
+populates secrets into `target`
 
-* encoding - file encoding, defaults to utf-8
+*options* - passed as object.
+
+* _target_ - object to mutate, defaults to `process.env`
+
+* _dir_ - directory to load, default to `/var/run/secret`
+
+* _encoding_ - file encoding, defaults to utf-8
+
+### get
+
+returns secrets as pogo
+
+*options* - passed as object.
+
+* _dir_ - directory to load, default to `/var/run/secret`
+
+* _encoding_ - file encoding, defaults to utf-8
 
 ## License
 

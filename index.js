@@ -15,8 +15,8 @@ const readFile = promisify(_readFile)
 
 function parseOpts (opts) {
 
-  if (!opts.path) {
-    opts.path = '/var/run/secrets'
+  if (!opts.dir) {
+    opts.dir = '/var/run/secrets'
   }
 
   if (!opts.encoding) {
@@ -30,33 +30,50 @@ function parseOpts (opts) {
   return opts
 }
 
-module.exports.get = async (opts) => {
-
-  const {dir, encoding, target} = parseOpts(opts)
-  const secrets = await readdir(dir)
+exports.get = async (opts = {}) => {
+  const {dir, encoding} = parseOpts(opts)
+  const secrets = await readdir(dir, {encoding})
+  const ret = {}
 
   for (const secret_name of secrets) {
     const secret_value = await readFile(path.join(dir, secret_name), encoding)
-
-    if (!target.hasOwnProperty(secret_name)) {
-      target[secret_name] = secret_value.trim()
-    }
-
+    ret[secret_name] = secret_value.trim()
   }
 
+  return ret
 }
 
-module.exports.getSync = opts => {
-
-  const {dir, encoding, target} = parseOpts(opts)
-  const secrets = readdirSync(dir)
+exports.getSync = (opts = {}) => {
+  const {dir, encoding} = parseOpts(opts)
+  const secrets = readdirSync(dir, {encoding})
+  const ret = {}
 
   for (const secret_name of secrets) {
     const secret_value = readFileSync(path.join(dir, secret_name), encoding)
+    ret[secret_name] = secret_value.trim()
+  }
 
+  return ret
+}
+
+exports.config = async (opts = {}) => {
+  const {target} = parseOpts(opts)
+  const secrets = await exports.get(opts)
+
+  for (const [secret_name, secret_value] of Object.entries(secrets)) {
     if (!target.hasOwnProperty(secret_name)) {
-      target[secret_name] = secret_value.trim()
+      target[secret_name] = secret_value
     }
+  }
+}
 
+exports.configSync = (opts = {}) => {
+  const {target} = parseOpts(opts)
+  const secrets = exports.getSync(opts)
+
+  for (const [secret_name, secret_value] of Object.entries(secrets)) {
+    if (!target.hasOwnProperty(secret_name)) {
+      target[secret_name] = secret_value
+    }
   }
 }
